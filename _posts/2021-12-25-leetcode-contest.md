@@ -5,7 +5,7 @@ title: leetcode contest biweekly 68,  weekly 273
 
 ## 2115. Find All Possible Recipes from Given Supplies
 it is basically topo sort, remember from->to when building the graph.
-```
+```cpp
 class Solution {
 public:
     vector<string> findAllRecipes(vector<string>& recipes, vector<vector<string>>& ingredients, vector<string>& supplies) {
@@ -51,7 +51,7 @@ one trick for any parentheses validation is greedily checking from left-to-right
 * ->: flex + open must always >= close
 * <-: flex + close must always >= open
 
-```
+```cpp
 class Solution {
 public:
     bool canBeValid(string s, string locked) {
@@ -89,7 +89,7 @@ public:
 ## 2120. Execution of All Suffix Instructions Staying in a Grid
 simple BFS on matrix
 
-```
+```cpp
 class Solution {
 public:
     vector<int> executeInstructions(int n, vector<int>& startPos, string s) {
@@ -179,7 +179,7 @@ the final look up table is
 ```
 
 
-```
+```cpp
 class Solution {
 public:
     vector<long long> getDistances(vector<int>& arr) {
@@ -249,7 +249,7 @@ then when we see 2, we take out 4. when we see 3, we take out 6. if there is not
 ### what about the negative number? 
 normal way is also start from the smallest but match x/2 instead. or sort the array by abs value, so both positive/negative number can have the same logic, the positive start from smallest, and the negative starts from biggest.
 
-```
+```cpp
 class Solution {
 public:
     bool canReorderDoubled(vector<int>& arr) {
