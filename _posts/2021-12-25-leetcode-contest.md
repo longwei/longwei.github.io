@@ -238,7 +238,7 @@ let's look at anther problem [954. Array of Doubled Pairs](https://leetcode.com/
 so the idea is to build a Counter on the arr, sort the array, , match from smallest
 
 ### why we start from smallest?
-if x is in the smaller final array, then there must exist a ```2*x```, and must not exisit a ```x/2```
+if x is in the smaller final array, then there must exist a `2*x`, and must not exisit a `x/2`
 
 take [2,4,|3,6], sort it to [2,3,|4,6], the smaller array is always at the left half after sorting. it is not about the relative position the x is in the whole array, it is about the relative position to the bigger counter part.
 
