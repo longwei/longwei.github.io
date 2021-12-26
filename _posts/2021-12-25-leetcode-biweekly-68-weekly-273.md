@@ -1,6 +1,6 @@
 ---
 layout: post
-title: leetcode contest biweekly 68,  weekly 273
+title: leetcode contest biweekly 68, weekly 273
 ---
 
 ## 2115. Find All Possible Recipes from Given Supplies
