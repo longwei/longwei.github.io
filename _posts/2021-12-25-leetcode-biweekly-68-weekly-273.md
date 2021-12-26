@@ -272,3 +272,39 @@ public:
 
 Now, back to our 2122. Recover the Original Array.
 we generate all possible k, then try to see whether we could divide the nums into two groups.
+
+
+```cpp
+class Solution {
+public:
+    vector<int> recoverArray(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        int n = nums.size();
+        for (int i = 1; i < n; i++) {
+            int twoK = nums[i] - nums[0];
+            if (twoK == 0 || twoK % 2 == 1) continue;
+            auto [ret, ans] = guess(nums, twoK/2);
+            if (ret) return ans;
+        }
+        return {};
+    }
+    
+    // there is a pair(x, x + 2k), assume we are looking for x
+    pair<bool, vector<int>> guess(const vector<int>& nums, int k) {
+        unordered_map<int, int> counter;
+        vector<int> ans;
+        for (int x: nums) {
+            counter[x]++;
+        }
+        for (int x: nums) {
+            if (counter[x] == 0) continue;
+            if (counter[x + 2*k] == 0) return {false,{}};
+            counter[x]--;
+            counter[x + 2*k]--;
+            ans.push_back(x+k);
+        }
+        return {true, ans};
+        
+    }
+};
+```
