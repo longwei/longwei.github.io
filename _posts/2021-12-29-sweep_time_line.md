@@ -5,6 +5,8 @@ title: 妙用BST Sweep time line
 
 ## Sweep time line
 和刚刚的diff问题一样，只是问题颗粒不在是每个index， 而是index of interest, 在输入sparse的情况下避免了一秒一秒的数，而是event发生了再处理， 利用了bst的里面的key也是sorted的特性
+![Tux, the Linux mascot](../images/sweep_timeline.png)
+
 
 用map的思路再来解 `1109. Corporate Flight Bookings` 和 `1094. Car Pooling` 区别在于， 1109: 定义为[i,j]. j时还没有下，j+1才算下车; 1094: 定义为[i,j) 在j已经下车了
 
