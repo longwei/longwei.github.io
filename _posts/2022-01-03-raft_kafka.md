@@ -4,7 +4,7 @@ title: raft vs kafka
 ---
 ![](../images/raft_kafka.png)
 
-from 
+from https://zhuanlan.zhihu.com/p/399639015
 
 # 1. 分布式下一致性Consistency的代价cost
 
