@@ -98,19 +98,6 @@ RTMP 以及 HTTP-FLV 等基于流分发的协议切片粒度很小，延迟在 3
 每个节点都cache streaming data
 
 
-**DB**
-
-
-**OS**
-
-
-**mis**
-
-
-所以mutil-region 之间是eventual consistency和单区的consistency model 不一样吧？
-, aribitration policy 是可以配置的么？ 有CDC
-
-
 
 
 
