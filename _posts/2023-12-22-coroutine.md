@@ -1,6 +1,6 @@
 ---
 layout: post
-title: python tmd 装哪里了？
+title: 线程 vs 协程？
 ---
 
 * 线程由中断和特定调用分出/让出时间片和触发上下文切换。切分的是对CPU的占有

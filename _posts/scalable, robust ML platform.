@@ -1,0 +1,77 @@
+scalable, robust ML platform.
+
+overseeing feature store management, model training, and monitoring tools.
+compute and storage layer, resource management
+and other serives to build a automate infrasture and tooling for operational feature compute and serving.
+
+
+
+build a fully managed ML feature platform, automate infrasture and tooling for operational feature compute and serving.
+
+and work on the infrastucture and tooling (MLOps)
+
+
+
+"Built a comprehensive and scalable distributed machine learning platform on AWS, showcasing expertise in leveraging key AWS services. Utilized Apache Airflow and Spark to design and implement the architecture, demonstrating proficiency as an AWS Solution Architect Professional."
+
+Designed and implemented a scalable distributed machine learning feature platform on AWS, showcasing expertise in the AWS tech stack. 
+
+
+demonstrating proficiency in designing scalable and cost-effective AWS architectures
+demonstrating proficiency in designing scalable and cost-effective AWS architectures
+
+using key AWS services, showcasing expertise in
+
+Built a distributed machine learning feature platform leveraging key AWS services. Demonstrating proficiency in designing scalable and cost-effective AWS architectures
+
+
+ on AWS using Apache Airflow, Spark.
+
+Designed and implemented the compute and storage layer to manage feature engineering infrastructure, incorporating automated ingest and serving
+
+Led the standardization and migration of complex data pipeline infrastructure as code, resulting in significant improvements in security measures and workload isolation
+
+Prepared, evaluated, and implemented operational excellence practices, including auto fail-over, recovery mechanisms, regional isolation strategies, and integration of chaos engineering experiments
+
+Established continuous monitoring for AWS infrastructure and application performance. Analyzed and visualized key metrics, integrating alerts with third-party tools like Splunk, New Relic, Slack, and PagerDuty
+
+Conducted root cause analysis for production incidents. Continuously enhanced platform resilience through the implementation of auto-remediate tools and dashboards. Updated runbook to improve the team's preparedness and responsiveness
+
+Identified optimization opportunities for cluster configuration, leading to a 0.4% reduction in Spark cluster running costs
+
+
+
+led the design of new service by align and concensus amount cross-functional teams. solify the API and message contract for all buisness requirement.
+
+
+
+
+
+managed ML environment, infra model, pipeline (data ingestion, compute, serving)
+
+
+feature engineering.
+
+* standardlization
+
+* automatation
+
+* monitoring
+
+setup continouous monitoring of  AWS infra and application performance. Monitor, analyze and visualize important key metric. integrated alert with 3rd tools, such as splunk, new relic, slack and pagerduty.
+
+
+conduct root cause analyze for production incidents. continusly improve platform resilence by adding auto-remediate tool and dashboard. update runbook to improve team's parparedness and responseness.
+
+identify possible opptunity for cost redeuction 0.5%
+
+
+
+
+workflow tool such as airflow
+ml platform tooling for deployment
+feature store and model store
+
+
+
+
