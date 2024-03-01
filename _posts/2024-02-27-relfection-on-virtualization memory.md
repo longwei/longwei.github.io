@@ -3,111 +3,109 @@ layout: post
 title: reflection on the x86 virtualization memory
 ---
 
+Paper Reflection:
+
+Q: List at least one pro and one con for software MMU and for hardware MMU
+A: software MMU: Flexibility but lack of performance, flush shadow page table on each CR3 change.
+hardwar MMU: high performace but complex (amplify the memory access x 20, stress on TLB) and $$$ to implement (bigger TLB)
+
+
+Q: What is the double paging problem and what caused it?
+A: page swap出去了，又跳进来了，又跳出去了。
+为啥？两个领导不好伺候。Guest and meta-level policies may clash, resulting in double paging
+
+
+Q: What is the benefit of keeping a "hint" entry for each scanned (but unshared) page (as compared to not maintaining anything for the page)
+A: how quickly decide a page is identical to avoid full scanned and re-scan.? 
+the idea is to hash content for the signature.
+
+Questions:
+1. page sharing 的时候会有hash collision的问题么？如果有，如何避免data corruption 和data leak的问题。
+2. memory ballooing 本质是会哭的孩子有奶吃，如何避免noisy neighbor problem，特别是在云端multi-tenant的环境下?
+3. how to decide upper limit of number of VM to provision on a server? how to maximum the overcommitment? 切分逻辑是动态的还是固定的？
+
+
+Note:
+* from ppt
+** sw vs hw memory virtualization
+
+
+if TLB hit: sw and hw is the same. MMU generate a page fault if invalid
+OS performs page fault handling: fetch the page, update the page table and resume the execution.
+
+but if TLB miss,
+sw controlled tlb: HW raise exception, trap to OS, and OS refresh the page table => TLB. 
+hw controlled tlb: mmu refresh the page table => TLB. 
+
+知识点： TLB is (hardware cache) subset of page table(data structure in RAM).
+
+
+** Difficulty in Virtualizing Hardware-Managed TLB
+why a hypervisor doesn't have a chance to intercept TLB misses？
+it's because TLB misses are typically handled directly by the hardware MMU. When a TLB miss occurs, the MMU initiates a page table walk to fetch the missing translation from memory. 
+the hypervisor operates at a higher level of abstraction and does not have direct control over the MMU's low-level operations.
+
+solution:
+1. shadow paging (this slide)
+2. para-virtualization: modified guest OS, eg. gues OS remove sensitive but unpriviledge insturctions
+3. new hw (this slide)
+
+shadow paging
+1. VMM 监控CR3, base address of the virtual address spaces
+2. CR3 变了，也意味着shadow page table需要re-sync
+3. 每个guest physicall address需要重新翻译为machine address
+4. 在把CR3指向shadow page table
+
+recall: logic page number -> physical pages number -> machine page number
+shadow page table and guest page table per application and pmaps per VM.
+shadow pages table can also have user/kenel split
+
+
+** Hardware-assisted memory virtualization
+
+Intel Extended Page Table (EPTE), referenced by the EPT base pointer.
+PPN -> MPN per vm
+HW directly walk the guest page table and the extended page table.
+不用自己维护shadow page table. 硬件自己re-sync.
+
+
+** Memory management
+memory mamagement: reclaiming, sharing, allocation
+
+*** Reclaiming Memory
+total memory size of all VM > actual machine memory size b/c overcommitment.
+
+Requires “meta-level” decisions: which page from which VM to swap and knowledge of guest OS.
+
+solution: implicit cooperation
+
+*** Ballooning
+dynamically adjusts the memory allocation for each virtual machine (VM) based on the memory pressure.
+
+** memory sharing
+shared same OS, apps or shared memory shm. copy-on-write.
 
 
 
+* Performance Evaluation of Intel EPT Hardware Assist
+nice visualization of sw MMU and hardward MMU
 
 
-# from PPT:
+
+* Memory Resource Management in VMware ESX Server
 
 
-## sw流派sw1： 模拟器
-创建了虚拟的emulation layer来转译instruction。
-限制： 效率低：快不了。类比valgrind。
+** physical is "physical" in the context of virtualization.
+pmap: "physical" page number to machine page number
 
+** chap3: Reclamation Mechanisms
+3.1 Page Replacement Issues: why double paging problem
+3.2 Ballooning: dynamic and also pop the ballon, reset the mapping PPN->MPN.
+3.3 demand paging: When ballooning is not possible or insufficient, the system falls back to a paging mechanism
 
-## sw流派2: Direct Execution with Trap-and-Emulate. 
-上次的virturalization的文艺复兴之作。
-限制：只有CPU可行。而且是都是同一指令集
-
-### x86 系统的虚拟化难在哪里？
-native有两种instruction需要额外关心：
-1. privileged instructions: those that trap when in user mode
-2. sensitive instructions: those that modify or depends on hardware configs
-
-x86的问题在与，
-1. 以上两个子集不重叠。
-有些instruction改了senstitive instruction，但不是privileged
-2. 另外有些instruction行为不一致，popf 
-
-### 本能想到的是，两个子集之union的都会触发trap? 
-即：又对operators(instruction)做trap， 也对operands(protect data)做trap
-再单独处理sensitive but not privileged的特例
-后面的Binary Translation看确实是这个思路, 不过都做了动态翻译了，直接把不同ISA也翻译了吧。
-
-## sw流派3: Direct Execution with Binary Translation
-goal: guest os not modified and full virtualization
-how: dynamic binary translation, trap all non-virtualzable instruction and emulate it by other sequence of instruction.
-
-问题：怎么其他x86 instruction set来翻译其non-virtualizable instruction。刚好能做到等价？
-这里估计是vmware的trade secret部分，这部分的工程量爆表。
-又要考虑instruction 不用ring下的behavior不同，还要做到instruction set之间的翻译。
-
-Non-Ident: 没法直接翻译
-1. PC-relative address
-2. Direct control flow
-3. indirect control flow
-4. sensitive instruction
-
-### Adaptive Binary Translation:
-* Start in the innocent state and detect instructions that trap frequently
-* Patch the original IDENT translation with a forwarding jump to the new translatio
-这里的意思是边跑边放出翻译的版本？因为没法static 判断是否需要trap?
-
-## 硬件流派1: Direct Execution with Hardware-Assisted Virtualization
-1. VMX non-root mode: runs VM, sensitive instructions cause transition to root mode, even in Ring 0
-终于分别区别对待privileged vs sensitive
-2. vm control structure
-
-简而言之，硬件需要感知vm的存在，才能对其更好的支持
-
-
-## 其他流派：
-- Paravirtualization。focus定制guest OS
-- container， k8s
-- 语言层，JVM
-
-
-# from A Comparison of Software and Hardware Techniques for x86 Virtualization:
-## 为什么第一代virtualization硬件支持的性能不如意？有些指标还不如sw？
-
-1. 本身没得直接加MMU，
-2. 然而又没有和sw的 mmu virtualzation适配, 还是各自为政
-
-compute-bound 表现都不错
-IO-bound SW表现更好。
-两者mix： HW表现更好。
-
-
-## chapter 2 & 3: recap
-* De-privileging: aka trap-and-emulate
-* Primary and shadow structures, aka maintain your own TLB 
-* memory trace: sync Primary and shadow structures by CR3 register 
-* highlight 
-"In our experience, striking a favorable balance in this three-way trade-off among trace costs, hidden page faults and context switch costs is surprising both in its difficulty and its criticality to VMM performance.""
-binary translation and Adaptive Binary Translation
-
-
-## 用hw需要改动什么？
-chapter 4: their hw enhancement
-1. virtual machine control block, or VMCB
-2. A new, less privileged execution mode, guest mode
-3. A new instruction, vmrun, transfers from host to guest mode
-
-
-## 如何定量分析这个问题，来判断到底哪些部分需要hardware acceleration呢？
-具体到db或者web server这种user pattern不同的情况呢？
-chapter 5: 指标定义
-chapter 6: compare and why
-
-## chapter 7: 有哪些可以改进的地方
-1. Microarchitecture: 没看明白。 为什么Microarchitecture可以让page fault exit更快。
-2. Hardware VMM algorithmic changes。 利用算法避免exit.
-3. 进一步集成sw/hw of VMM
-4. 最有希望的是硬件加MMU support for VMM
-
-* 补充：what's page fault: physical memory 超卖了, swap back from disk.
-
+** Sharing Memory
+4.1 Transparent Page Sharing: knowledge-based redundant detection
+4.2 Content-Based Page Sharing: content-based redundant detection from hint-frame
 
 
 
