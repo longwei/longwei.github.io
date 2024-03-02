@@ -135,6 +135,11 @@ https://www.zhihu.com/question/639864582
 
 
 
+## feature engineering.
 
-
+1. access: access to feature info, transparency, lineage
+2. serving: availability in production at high throughput and low lantency. the user don't need to sql retrieval from data warehouse. integration with offline storage(s3) with online storage(redis). real-time feature transformation.
+3. integrity: minimize train-serve skew, point-in-time correct data. 以确保历史特征和标签被用于训练和评估时不存在 data leaks
+4. convenience: easy quick to use. interactivity
+5. autopilot: automated backfill and alerts, feature selection.
 
