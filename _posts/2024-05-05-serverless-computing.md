@@ -8,7 +8,7 @@ Q: Today's serverless functions are stateless. How do you think different functi
 A: lambda is stateless, so the state must be some other place, such as DB, Shared File/object, MessageQueue/event stream or HTTP API call chain.
 
 Q: Can you think of any security threats of serverless computing? Bonus points if you can outline a real threat/attack.
-A: risks inherent in multi-tenant resource sharing: data, lib dependecy/run time, access control.
+A: risks inherent in multi-tenant resource sharing: data privacy , lib dependecy/run time, access control.
    solution:
    1. Scheduling randomization and physical isolation: deliberately preventing physical co-residency may conflict with placement to optimize start-up time, resource utilization, or communication.
    2. Fine-grained security contexts: access to Cloud functions need fine-grained configuration, including access to private keys, storage objects, and even local temporary resources(confused deputy)

@@ -25,7 +25,7 @@ b. Software-defined networking SDN and network virtualization overlay NVO tasks,
 Question to discuss:
 Q: how to acquire/release the lock on the virtio? It is not in the virtqueue_ops API.
 Q: how to handle the interrupt concurrence? What happens to interrupt or interrupt?
-Q: SDN 也太复杂了，就为了在另一个routing domain里面起虚拟机。一个subnet开大点不可以么？
+Q: SDN 也太复杂了，就为了在另一个routing domain里面起虚拟机。需要虚拟化到这个程度么？一个subnet开大点不可以么？
    比如AWS起EC2都要指定subnet的，似乎规避了这个问题。
 
 
