@@ -101,5 +101,3 @@ Why? Natural evolution. Compatibility over efficiency.
 Can use existing tooling, more flexible, 
 
 把OS的功能挪到process里面
-
-
