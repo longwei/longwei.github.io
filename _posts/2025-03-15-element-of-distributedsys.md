@@ -11,7 +11,7 @@ title: element of distributed system
 * High-water mark: old leader's WAL may not sync. mark the last sync record, and only expose data under the mark to user.
 * hearbeat and gossip protocol.
 * Phi accurual Failure Detection: trade off between short timeout and long timeout
-* lease: remediation for lock. time-bound contract, not monotonic increaseing number.
+* lease: remediation for lock. time-bound contract, not monotonic increaseing number. resource management with a time-bound. preemptive 
 * generation lock: split-brain? bump the term in leader election, so only the last leader matters
 * fencing token: splt-brain? protecting external resource like DB from stale write. It is more frequently updated.
 * vector clock

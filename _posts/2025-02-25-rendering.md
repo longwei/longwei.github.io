@@ -23,10 +23,12 @@ the dependecies: webp, jpeg freetype, shader..etc
 
 3. DSL
 QML, HTML/CSS
+how to describe the layout and behavior
 
 4. scripe engine
 why? because seperatation of static and dynamic part.
-Qt v4
+Qt v4 javascript engine. 
+QuickJS, and Lua from 云风
 
 5. message engine
 signal/slot and cross-thread
